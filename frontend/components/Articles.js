@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
+import ArticleForm from './ArticleForm'
 
 export default function Articles(props) {
+  
+  const [currentArticle, setCurrentArticle] = useState({
+    article_id:0,
+    title:"",
+    text:"",
+    topic:""
+  })
 
   // ✨ where are my props? Destructure them here
-  const { articles, getArticles, currentArticleId} = props ; 
+  const { articles, getArticles } = props ; 
 
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
@@ -21,11 +29,27 @@ export default function Articles(props) {
 
   //getting my article id 
   const onClickArticleId = (e) => {  
+
     const id = parseInt(e.target.value);
-    props.setCurrentArticleId(id); 
-    console.log(e.target.value)
+    props.setCurrentArticleId(id);  
+    
+    getCurrentArticle();
   }
+
+  const getCurrentArticle = () => {
   
+    articles.map( art => { if (art.article_id === props.currentArticleId)
+      {return(setCurrentArticle({
+          ...currentArticle, 
+          article_id:art.article_id, 
+          title:art.title,
+          text:art.text,
+          topic:art.topic
+          }))}
+    })
+  }
+
+
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
     // and use the articles prop to generate articles
@@ -37,22 +61,25 @@ export default function Articles(props) {
           ? redirect()
 
           : articles.map(art => {
+
             return (
               <div className="article" key={art.article_id} value={art.article_id}>
+
                 <div>
                   <h3>{art.title}</h3>
                   <p>{art.text}</p>
                   <p>Topic:{art.topic}</p>
                 </div>
                 <div>
-                  <button disabled={false} onClick={onClickArticleId} value={art.article_id} >Edit</button>
-                  <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Delete</button>
+                  <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Edit</button>
+                  <button disabled={false} onClick={() => {onClickArticleId(); getCurrentArticle()}} value={art.article_id}>Delete</button>
                 </div>
-              </div>
 
+              </div>
             )
-          })
+          })    
       }
+      {<ArticleForm currentArticle={currentArticle}/>}
     </div>
   )
 }

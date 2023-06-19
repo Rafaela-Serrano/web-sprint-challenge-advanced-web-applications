@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import PT from 'prop-types'
-import { axiosWithAuth } from '../axios'
 
-const articlesUrl = 'http://localhost:9000/api/articles'
 const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
+
   const [values, setValues] = useState(initialFormValues)
 
   // ✨ where are my props? Destructure them here
-  const {postArticle, updateArticle, deleteArticle, setCurrentArticleId, currentArticleId} = props ; 
+  const {postArticle, updateArticle, deleteArticle, setCurrentArticleId, currentArticleId, currentArticle} = props ; 
 
   useEffect( (e) => {
     // ✨ implement
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
-  
-  },[])
+    if(currentArticle !== currentArticle ){
+      setValues({...values,
+      title:currentArticle.title,
+      text:currentArticle.text,
+      topic:currentArticle.topic,
+    })
+  } 
+   else ( 
+    setValues({...values, title:'', text:'', topic:''})
+    )
+},[])
 
   const onChange = (evt) => {
     const { id, value } = evt.target
@@ -66,6 +74,7 @@ export default function ArticleForm(props) {
         <option value="React">React</option>
         <option value="Node">Node</option>
       </select>
+
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
         <button onClick={Function.prototype}>Cancel edit</button>
