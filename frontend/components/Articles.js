@@ -13,7 +13,7 @@ export default function Articles(props) {
   })
 
   // ✨ where are my props? Destructure them here
-  const { articles, getArticles } = props ; 
+  const { articles, getArticles, currentArticleId } = props ; 
 
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
@@ -27,27 +27,27 @@ export default function Articles(props) {
     getArticles()
   }, [])
 
+  
   //getting my article id 
   const onClickArticleId = (e) => {  
 
     const id = parseInt(e.target.value);
     props.setCurrentArticleId(id);  
-    
-    getCurrentArticle();
+
+    articles.filter( art => { 
+      if (art.article_id === id){
+        
+        return(setCurrentArticle({
+              article_id:art.article_id, 
+              title:art.title,
+              text:art.text,
+              topic:art.topic
+              }))
+      }})  
   }
 
-  const getCurrentArticle = () => {
+
   
-    articles.map( art => { if (art.article_id === props.currentArticleId)
-      {return(setCurrentArticle({
-          ...currentArticle, 
-          article_id:art.article_id, 
-          title:art.title,
-          text:art.text,
-          topic:art.topic
-          }))}
-    })
-  }
 
 
   return (
@@ -72,14 +72,14 @@ export default function Articles(props) {
                 </div>
                 <div>
                   <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Edit</button>
-                  <button disabled={false} onClick={() => {onClickArticleId(); getCurrentArticle()}} value={art.article_id}>Delete</button>
+                  <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Delete</button>
                 </div>
 
               </div>
             )
           })    
       }
-      {<ArticleForm currentArticle={currentArticle}/>}
+      
     </div>
   )
 }

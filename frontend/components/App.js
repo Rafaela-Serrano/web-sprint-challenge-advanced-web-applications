@@ -79,6 +79,12 @@ export default function App() {
     // Don't forget to turn off the spinner!
   }
 
+  const getArticleId = (Id) => {
+    axiosWithAuth()
+    .get(`${articlesUrl}/${Id}`)
+    .then( res => console.log(res))
+    .catch( err => console.log(err))
+  }
   
 
   const postArticle = article => {
@@ -96,7 +102,7 @@ export default function App() {
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
-      .cath( err => {
+      .catch( err => {
         console.log(err)
       })
   }
@@ -104,7 +110,7 @@ export default function App() {
   const updateArticle = ({ article_id, article }) => {
 
     axiosWithAuth()
-    .update(`articleUrl/${article_id}`, article)
+    .update(`${articlesUrl}/${article_id}`, article)
       .then(res => {
         setArticles(res.data.articles)
         setMessage(res.data.message)
@@ -118,7 +124,7 @@ export default function App() {
 
   const deleteArticle = article_id => {
     axiosWithAuth()
-    .delete(`articleUrl${article_id}`)
+    .delete(`${articlesUrl}/${article_id}`)
     .then( res => { console.log(res)})
     .catch( err => { console.log(err)})
     // ✨ implement
@@ -159,6 +165,7 @@ export default function App() {
               <Articles 
                 articles = {articles} 
                 getArticles = {getArticles} 
+                getArticleId = {getArticleId}
                 currentArticleId = {currentArticleId} 
                 setCurrentArticleId={setCurrentArticleId} />    
                  
