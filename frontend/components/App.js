@@ -19,18 +19,19 @@ export default function App() {
   const [spinnerOn, setSpinnerOn] = useState(false)
 
   // ✨ Research `useNavigate` in React Router v.6
+  // ✨ implement
+  // If a token is in local storage it should be removed,
+  // and a message saying "Goodbye!" should be set in its proper state.
+  // In any case, we should redirect the browser back to the login screen,
+  // using the helper above.
   const navigate = useNavigate()
   const redirectToLogin = () => { navigate("/") } ; 
   const redirectToArticles= () => { navigate("/articles") } ;
-  const logout = () => {
-    // ✨ implement
-    // If a token is in local storage it should be removed,
-    // and a message saying "Goodbye!" should be set in its proper state.
-    // In any case, we should redirect the browser back to the login screen,
-    // using the helper above.
-  }
+  const logout = () => {}
 
-  
+  const currentArticle = articles.find(a => a.article_id === currentArticleId)
+  console.log("I'm currentArticle", currentArticle)
+
   const login = ({ username, password }) => {
     // ✨ implement
     // We should flush the message state, turn on the spinner
@@ -62,7 +63,7 @@ export default function App() {
     axiosWithAuth()
     .get(articlesUrl)
     .then( res => {
-      console.log(res.data.articles);
+      console.log("I'm inside getArticles", res.data.articles)
       setArticles(res.data.articles);
       setMessage(res.data.message);
       setSpinnerOn(false);
@@ -78,14 +79,6 @@ export default function App() {
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
   }
-
-  const getArticleId = (Id) => {
-    axiosWithAuth()
-    .get(`${articlesUrl}/${Id}`)
-    .then( res => console.log(res))
-    .catch( err => console.log(err))
-  }
-  
 
   const postArticle = article => {
     // ✨ implement
@@ -107,15 +100,19 @@ export default function App() {
       })
   }
 
-  const updateArticle = ({ article_id, article }) => {
-
+  const updateArticle = ({article_id,article}) => {
+    setMessage("")
+    setSpinnerOn(true)
+    console.log("I'm article inside updateArticle", article)
     axiosWithAuth()
-    .update(`${articlesUrl}/${article_id}`, article)
-      .then(res => {
-        setArticles(res.data.articles)
+    .put(`${articlesUrl}/${article_id}`, article)
+    .then(res => {
+        console.log(res)
         setMessage(res.data.message)
+        setSpinnerOn(false) 
+        getArticles()
       })
-      .catch( err => {
+    .catch( err => {
         console.log(err)
       })
     // ✨ implement
@@ -129,6 +126,8 @@ export default function App() {
     .catch( err => { console.log(err)})
     // ✨ implement
   }
+  
+
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
@@ -154,19 +153,16 @@ export default function App() {
             path="/articles" 
             element={ <> 
               <ArticleForm 
-                postArticle = {postArticle} 
-                currentArticleId = {currentArticleId} 
-                setCurrentArticleId={setCurrentArticleId}
+                postArticle={postArticle} 
                 updateArticle={updateArticle}
-                deleteArticle={deleteArticle}
-                articles={articles}
-                getArticles={getArticles}
+                currentArticle={currentArticle}
+                setCurrentArticleId={setCurrentArticleId}
                 /> 
               <Articles 
-                articles = {articles} 
-                getArticles = {getArticles} 
-                getArticleId = {getArticleId}
-                currentArticleId = {currentArticleId} 
+                articles={articles} 
+                getArticles={getArticles} 
+                deleteArticle={deleteArticle}
+                currentArticleId={currentArticleId} 
                 setCurrentArticleId={setCurrentArticleId} />    
                  
             </> } />

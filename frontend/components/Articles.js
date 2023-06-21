@@ -2,18 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
 import ArticleForm from './ArticleForm'
+import axios from "axios"
 
 export default function Articles(props) {
-  
-  const [currentArticle, setCurrentArticle] = useState({
-    article_id:0,
-    title:"",
-    text:"",
-    topic:""
-  })
-
   // ✨ where are my props? Destructure them here
-  const { articles, getArticles, currentArticleId } = props ; 
+  const { articles, getArticles, currentArticleId, deleteArticle } = props ; 
 
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
@@ -27,27 +20,18 @@ export default function Articles(props) {
     getArticles()
   }, [])
 
-  
   //getting my article id 
   const onClickArticleId = (e) => {  
-
     const id = parseInt(e.target.value);
-    props.setCurrentArticleId(id);  
-
-    articles.filter( art => { 
-      if (art.article_id === id){
-        
-        return(setCurrentArticle({
-              article_id:art.article_id, 
-              title:art.title,
-              text:art.text,
-              topic:art.topic
-              }))
-      }})  
+    props.setCurrentArticleId(id);    
   }
 
+  const onClickArticleDelete = (e) => {
+    const id = parseInt(e.target.value);
+    props.setCurrentArticleId(id);   
 
-  
+    deleteArticle(id)
+  }
 
 
   return (
@@ -72,14 +56,14 @@ export default function Articles(props) {
                 </div>
                 <div>
                   <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Edit</button>
-                  <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Delete</button>
+                  <button disabled={false} onClick={onClickArticleDelete} value={art.article_id}>Delete</button>
                 </div>
 
               </div>
             )
           })    
       }
-      
+
     </div>
   )
 }
