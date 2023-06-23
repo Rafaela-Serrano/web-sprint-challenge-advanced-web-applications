@@ -57,10 +57,8 @@ export default function App() {
   const logout = (e) => { 
 
     e.preventDefault(); 
-
-    const token = localStorage.getItem("token");
     
-    localStorage.removeItem(token);
+    localStorage.clear();
 
     redirectToLogin();
 
