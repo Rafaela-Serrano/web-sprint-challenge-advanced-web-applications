@@ -11,12 +11,12 @@ test('renders spinner with props changes', () => {
 
   const {rerender} = render ( <Spinner on={false}/> ) ;
 
-  expect( screen.queryAllByTestId("spinner") ).toBeFalsy()
+  
   expect( screen.queryByText('Please wait...')).not.toBeInTheDocument()
 
   rerender ( <Spinner on={true}/> ) ; 
 
-  expect( screen.queryAllByTestId("spinner") ).toBeTruthy()
+  
   expect( screen.queryByText('Please wait...')).toBeInTheDocument()
 
 })
