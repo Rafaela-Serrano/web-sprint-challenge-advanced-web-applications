@@ -1,6 +1,7 @@
 // Import the Spinner component into this file and test
 import Spinner from "./Spinner" ;
 import { render, screen } from '@testing-library/react';
+import React from "react";
 // that it renders what it should for the different props it can take.
 test('sanity', () => {
   expect(true).toBe(false)
