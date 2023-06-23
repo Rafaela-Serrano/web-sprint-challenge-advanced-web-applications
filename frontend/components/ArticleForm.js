@@ -55,12 +55,14 @@ export default function ArticleForm(props) {
 
   const isDisabled = () => {
     // ✨ implement
-    if( currentArticle !== undefined ) 
-    { return false } 
-    else if (currentArticle === undefined)
-    { return false }
-    else return true 
-
+    if( values.title.trim().length >= 1 && 
+        values.title.trim().length >= 1 && 
+        (values.topic === "JavaScript" || values.topic === "React" || values.topic === "Node")
+      ){
+       return false 
+      } else {
+        return true
+      }
   }
 
   const cancelFunction = () => {
