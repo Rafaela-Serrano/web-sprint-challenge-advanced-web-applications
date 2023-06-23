@@ -18,7 +18,7 @@ export default function ArticleForm(props) {
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
-    if(currentArticle !== undefined ){
+  if(currentArticle !== undefined ){
       setValues({...values,
         title:currentArticle.title,
         text:currentArticle.text,
@@ -39,18 +39,19 @@ export default function ArticleForm(props) {
   const onSubmit = evt => {
 
     evt.preventDefault()
-    
+
+    console.log("Invoking onSubmit function")
+
+    resetForm()
+
     if (currentArticle !== undefined ) {
-      updateArticle({article_id:currentArticle.article_id, article:values})
-      setValues({title:'', text:'', topic:''})
-    } else {
-      postArticle(values)  
-      setValues({title:'', text:'', topic:''})
-    }
-      
+      updateArticle({article_id:currentArticle.article_id, article:values})   
+    } else {  postArticle(values)  }
+
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
+
   }
 
   const isDisabled = () => {
@@ -65,9 +66,11 @@ export default function ArticleForm(props) {
       }
   }
 
-  const cancelFunction = () => {
+  const resetForm  = () => {
     setValues({title:'', text:'', topic:''})
   }
+
+  console.log("I'm rendering ArticleForm.js component of hell")
 
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
@@ -99,12 +102,12 @@ export default function ArticleForm(props) {
 
       { currentArticle === undefined ? 
         <div className="button-group">
-           <button disabled={isDisabled()} id="submitArticle" >Submit</button>
+           <button disabled={isDisabled()} id="submitArticle" type='submit'>Submit</button>
         </div> 
         : 
        <div className="button-group">
-        <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={cancelFunction}>Cancel edit</button>
+        <button disabled={isDisabled()} id="submitArticle" type='submit'>Submit</button>
+        <button onClick={resetForm} type="button">Cancel edit</button>
        </div> 
       }
 

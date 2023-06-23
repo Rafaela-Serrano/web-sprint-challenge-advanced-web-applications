@@ -18,6 +18,7 @@ export default function App() {
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
 
+
   // ✨ Research `useNavigate` in React Router v.6
   // ✨ implement
   // If a token is in local storage it should be removed,
@@ -111,6 +112,7 @@ export default function App() {
   }
 
   const updateArticle = ({article_id,article}) => {
+    console.log("I'm invoking updateArticle")
     setMessage("")
     setSpinnerOn(true)
     axiosWithAuth()
@@ -131,7 +133,10 @@ export default function App() {
       })
     // ✨ implement
     // You got this!
+
   }
+
+  
 
   const deleteArticle = article_id => {
     setMessage("")
@@ -148,7 +153,7 @@ export default function App() {
     // ✨ implement
   }
   
-
+  console.log("I'm rendering App.js component")
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
@@ -186,7 +191,8 @@ export default function App() {
                 currentArticleId={currentArticleId} 
                 setCurrentArticleId={setCurrentArticleId} />    
                  
-            </> } />
+            </> } 
+          />
         </Routes>
 
         <footer>Bloom Institute of Technology 2022</footer>
