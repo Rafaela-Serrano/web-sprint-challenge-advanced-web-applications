@@ -27,10 +27,10 @@ export default function App() {
   const navigate = useNavigate()
   const redirectToLogin = () => { navigate("/") } ; 
   const redirectToArticles= () => { navigate("/articles") } ;
-  const logout = () => {}
+  
 
   const currentArticle = articles.find(a => a.article_id === currentArticleId)
-  console.log("I'm currentArticle", currentArticle)
+  
 
   const login = ({ username, password }) => {
     // ✨ implement
@@ -54,6 +54,20 @@ export default function App() {
     // to the Articles screen. Don't forget to turn off the spinner!
   }
 
+  const logout = (e) => { 
+
+    e.preventDefault(); 
+
+    const token = localStorage.getItem("token");
+    
+    localStorage.removeItem(token);
+
+    redirectToLogin();
+
+    setMessage("Goodbye!")
+
+  }
+
   const getArticles = () => {
     // ✨ implement
     // We should flush the message state, turn on the spinner
@@ -63,7 +77,6 @@ export default function App() {
     axiosWithAuth()
     .get(articlesUrl)
     .then( res => {
-      console.log("I'm inside getArticles", res.data.articles)
       setArticles(res.data.articles);
       setMessage(res.data.message);
       setSpinnerOn(false);
@@ -90,11 +103,10 @@ export default function App() {
     axiosWithAuth()
     .post(articlesUrl, article)
       .then( res => {
-        console.log(res)
-        setArticles(res.data.articles);
         setMessage(res.data.message);
         setSpinnerOn(false);
-      })
+        setArticles([...articles, res.data.article])
+        })  
       .catch( err => {
         console.log(err)
       })
@@ -103,14 +115,18 @@ export default function App() {
   const updateArticle = ({article_id,article}) => {
     setMessage("")
     setSpinnerOn(true)
-    console.log("I'm article inside updateArticle", article)
     axiosWithAuth()
     .put(`${articlesUrl}/${article_id}`, article)
     .then(res => {
         console.log(res)
         setMessage(res.data.message)
         setSpinnerOn(false) 
-        getArticles()
+        setArticles( articles => {
+          return articles.map ( art => {
+            return art.article_id === article_id ? res.data.article : art 
+          })
+        })
+        
       })
     .catch( err => {
         console.log(err)
@@ -120,9 +136,16 @@ export default function App() {
   }
 
   const deleteArticle = article_id => {
+    setMessage("")
+    setSpinnerOn(true)
     axiosWithAuth()
     .delete(`${articlesUrl}/${article_id}`)
-    .then( res => { console.log(res)})
+    .then( res => {
+      console.log("I'm response inside deleteArticle", res)
+      setMessage(res.data.message);
+      setSpinnerOn(false);
+      setArticles( articles.filter ( art => ( art.article_id !== article_id ) ))
+    })  
     .catch( err => { console.log(err)})
     // ✨ implement
   }

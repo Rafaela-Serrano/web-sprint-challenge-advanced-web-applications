@@ -41,10 +41,8 @@ export default function ArticleForm(props) {
     evt.preventDefault()
     
     if (currentArticle !== undefined ) {
-      updateArticle({article_id:currentArticle.article_id,article:currentArticle})
+      updateArticle({article_id:currentArticle.article_id,article:values})
       setValues({title:'', text:'', topic:''})
-      console.log("I'm currentArticle inside onSubmit", currentArticle)
-      console.log("I'm values inside onSubmit", values)
     } else {
       postArticle(values)  
       setValues({title:'', text:'', topic:''})
