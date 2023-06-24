@@ -9,7 +9,8 @@ export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues)
 
   // ✨ where are my props? Destructure them here
-  const {postArticle, updateArticle, currentArticle, setSpinnerOn} = props ; 
+  const {postArticle, updateArticle, currentArticle, setCurrentArticleId} = props ;
+  
 
  
 
@@ -40,18 +41,17 @@ export default function ArticleForm(props) {
 
     evt.preventDefault()
 
-    console.log("Invoking onSubmit function")
-
-    resetForm()
 
     if (currentArticle !== undefined ) {
       updateArticle({article_id:currentArticle.article_id, article:values})   
     } else {  postArticle(values)  }
-
+    
+    
+    setCurrentArticleId(null)
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
-
+    
   }
 
   const isDisabled = () => {
@@ -69,6 +69,7 @@ export default function ArticleForm(props) {
   const resetForm  = () => {
     setValues({title:'', text:'', topic:''})
   }
+
 
   console.log("I'm rendering ArticleForm.js component of hell")
 
