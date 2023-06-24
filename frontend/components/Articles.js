@@ -52,7 +52,7 @@ export default function Articles(props) {
                 <div>
                   <h3>{art.title}</h3>
                   <p>{art.text}</p>
-                  <p>Topic:{art.topic}</p>
+                  <p>Topic: {art.topic}</p>
                 </div>
                 <div>
                   <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Edit</button>
