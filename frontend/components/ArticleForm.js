@@ -82,7 +82,7 @@ export default function ArticleForm(props) {
         maxLength={50}
         onChange={onChange}
         value={values.title}
-        name="title"
+        // name="title"
         placeholder="Enter title"
         id="title"
       />
@@ -90,7 +90,7 @@ export default function ArticleForm(props) {
         maxLength={200}
         onChange={onChange}
         value={values.text}
-        name="text"
+        // name="text"
         placeholder="Enter text"
         id="text"
       />
