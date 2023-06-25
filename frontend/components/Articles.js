@@ -26,12 +26,12 @@ export default function Articles(props) {
     props.setCurrentArticleId(id);    
   }
 
-  const onClickArticleDelete = (e) => {
-    const id = parseInt(e.target.value);
-    props.setCurrentArticleId(id);   
+  // const onClickArticleDelete = (e) => {
+  //   const id = parseInt(e.target.value);
+  //   props.setCurrentArticleId(id);   
 
-    deleteArticle(id)
-  }
+  //   deleteArticle(id)
+  // }
 
 
   return (
@@ -56,7 +56,7 @@ export default function Articles(props) {
                 </div>
                 <div>
                   <button disabled={false} onClick={onClickArticleId} value={art.article_id}>Edit</button>
-                  <button disabled={false} onClick={onClickArticleDelete} value={art.article_id}>Delete</button>
+                  <button disabled={false} onClick={ () => deleteArticle(art.article_id)} >Delete</button>
                 </div>
 
               </div>
