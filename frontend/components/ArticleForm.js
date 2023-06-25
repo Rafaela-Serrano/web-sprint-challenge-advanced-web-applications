@@ -44,10 +44,13 @@ export default function ArticleForm(props) {
 
     if (currentArticle !== undefined ) {
       updateArticle({article_id:currentArticle.article_id, article:values})   
-    } else {  postArticle(values)  }
-    
-    
-    setCurrentArticleId(null)
+      setCurrentArticleId(null)
+    } else {  
+      postArticle(values) 
+      resetForm()   
+    }
+
+
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
